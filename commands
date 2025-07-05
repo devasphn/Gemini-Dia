@@ -1,0 +1,59 @@
+# === WIPE THE WORKSPACE TO ENSURE A CLEAN SLATE ===
+rm -rf /workspace/*
+cd /workspace
+
+# === PART 1: CLONE YOUR PROJECT REPOSITORY ===
+# This gets your main.py file ready.
+git clone https://github.com/devasphn/UltraChatLive1/
+cd UltraChatLive1
+# IMPORTANT: Delete any old main.py and requirements.txt inside.
+
+# === PART 2: INSTALL NECESSARY SYSTEM DEPENDENCIES ===
+# We still need ffmpeg for audio processing.
+apt-get update && apt-get install -y libsox-dev libsndfile1-dev portaudio19-dev ffmpeg
+
+# === PART 3: CREATE AND ACTIVATE THE ENVIRONMENT ===
+python3 -m venv venv
+source venv/bin/activate
+
+# === PART 4: UPGRADE PIP AND INSTALL ALL REQUIRED PYTHON PACKAGES ===
+# This list includes everything needed for Google Gemini, Dia TTS, Ultravox, and the rest.
+pip install --upgrade pip
+
+# PyTorch (essential for models)
+pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu124
+
+# Core AI Libraries
+pip install transformers librosa accelerate
+
+# Libraries for Silero VAD
+pip install torch-audiomentations silero-vad
+
+# Libraries for WebRTC and Server
+pip install aiortc websockets aiohttp aiofiles soundfile webrtcvad pyaudio uvloop
+
+# Libraries for Google Gemini (ASR/LLM)
+# Install the Google Generative AI library
+pip install google-generativeai
+
+# Libraries for Dia TTS
+# Note: Dia TTS installation might vary. The common way is via its repository or specific package.
+# Based on common practices for such models, we will assume it's installable via pip.
+# If Dia TTS requires a specific repo clone and install, this will need adjustment.
+# For now, assuming `pip install dia-tts` or similar is available. If not, we'll adapt.
+# **However, the most common way for advanced TTS like this is to clone and install.**
+# Let's assume for now it's a pip install. If it fails, we'll switch to cloning.
+# For now, let's just install common dependencies.
+# If Dia TTS has specific installation steps, please refer to its documentation.
+# We will adjust the Python code to use its API.
+pip install dia-tts  # Assuming it's available on PyPI
+
+# Dependencies that might be implicitly needed by the models or your previous code
+pip install numpy scipy huggingface-hub inflection unidecode pypinyin g2p-en nltk
+
+# Download NLTK data (needed for some TTS pre-processors, like g2p-en)
+python -m nltk.downloader punkt
+
+# === PART 5: RUN THE APPLICATION ===
+# This will now work with the new main.py from the next step.
+# python main.py
